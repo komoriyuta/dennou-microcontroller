@@ -1,0 +1,17 @@
+site_name: マイコン講習会
+site_url: https://komoriyuta/dennou-microcontroller.github.io/
+repo_url: https://github.com/komoriyuta/dennou-microcontroller
+nav:
+  - 'はじめに': 'index.md'
+  - 'マイコンの基礎知識': 'chapter1.md'
+  - 'C/C++言語での "Hello, World"（Lチカ）': 'chapter2.md'
+  - '各種センサー・アクチュエーターの基本的な使い方':
+    - '概要': 'chapter3/index.md'
+    - 'サーボモーター(SG90)': 'chapter3/sg90.md'
+    - '6軸センサー(MPU-6050)': 'chapter3/mpu6050.md'
+    - 'フォトリフレクタ(LBR-127HLD)': 'chapter3/lbr127hld.md'
+  - '応用的な作例の制作': 'chapter4.md'
+theme:
+  name: material
+  features:
+    - navigation.footer

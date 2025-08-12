@@ -1,0 +1,16 @@
+<mxfile host="65bd71144e">
+    <diagram id="BiVowKOJXtYDFgUa5SOh" name="Page-1">
+        <mxGraphModel dx="705" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="" style="pointerEvents=1;verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.signal_sources.signal_ground;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="420" width="45" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="IC" style="shadow=0;dashed=0;align=center;html=1;strokeWidth=1;shape=mxgraph.electrical.logic_gates.dual_inline_ic;whiteSpace=wrap;labelCount=40;pinSpacing=20;labelNames=a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a;" vertex="1" parent="1">
+                    <mxGeometry x="45" width="175" height="400" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
