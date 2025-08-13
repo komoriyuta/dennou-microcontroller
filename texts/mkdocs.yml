@@ -1,5 +1,5 @@
 site_name: マイコン講習会
-site_url: https://komoriyuta/dennou-microcontroller.github.io/
+site_url: https://komoriyuta.github.io/dennou-microcontroller/
 repo_url: https://github.com/komoriyuta/dennou-microcontroller
 nav:
   - 'はじめに': 'index.md'
