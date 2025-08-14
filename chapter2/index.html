@@ -1,0 +1,1152 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://komoriyuta.github.io/dennou-microcontroller/chapter2/">
+      
+      
+        <link rel="prev" href="../chapter1/">
+      
+      
+        <link rel="next" href="../chapter3/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>C/C++言語での "Hello, World"（Lチカ） - マイコン講習会</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arduino-hello-worldled" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="マイコン講習会" class="md-header__button md-logo" aria-label="マイコン講習会" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            マイコン講習会
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              C/C++言語での "Hello, World"（Lチカ）
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/komoriyuta/dennou-microcontroller" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="マイコン講習会" class="md-nav__button md-logo" aria-label="マイコン講習会" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    マイコン講習会
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/komoriyuta/dennou-microcontroller" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    はじめに
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    マイコンの基礎知識
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    C/C++言語での "Hello, World"（Lチカ）
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    C/C++言語での "Hello, World"（Lチカ）
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arduino言語の基本
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serial-hello-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serial通信で "Hello, World" を表示してみよう
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#led" class="md-nav__link">
+    <span class="md-ellipsis">
+      LEDを光らせるための準備：抵抗の計算
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LEDを光らせるための準備：抵抗の計算">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      なぜ抵抗が必要か？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      オームの法則で抵抗値を計算する
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#led_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      マイコンでLEDを点灯させてみよう
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delay" class="md-nav__link">
+    <span class="md-ellipsis">
+      なぜdelay()は嫌われるのか？ ノンブロッキング処理の勧め
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="なぜdelay()は嫌われるのか？ ノンブロッキング処理の勧め">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#millis" class="md-nav__link">
+    <span class="md-ellipsis">
+      millis()を使った解決策
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ledpwm" class="md-nav__link">
+    <span class="md-ellipsis">
+      LEDを暗くしたり明るくしたりしてみよう（PWM制御）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      発展：スイッチのチャタリングとデバウンス
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="発展：スイッチのチャタリングとデバウンス">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      ソフトウェアデバウンス
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    各種センサー・アクチュエーターの基本的な使い方
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            各種センサー・アクチュエーターの基本的な使い方
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    概要
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter3/sg90/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    サーボモーター(SG90)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter3/mpu6050/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6軸センサー(MPU-6050)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter3/lbr127hld/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    フォトリフレクタ(LBR-127HLD)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    応用的な作例の制作
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arduino" class="md-nav__link">
+    <span class="md-ellipsis">
+      Arduino言語の基本
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serial-hello-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      Serial通信で "Hello, World" を表示してみよう
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#led" class="md-nav__link">
+    <span class="md-ellipsis">
+      LEDを光らせるための準備：抵抗の計算
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LEDを光らせるための準備：抵抗の計算">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      なぜ抵抗が必要か？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      オームの法則で抵抗値を計算する
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#led_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      マイコンでLEDを点灯させてみよう
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#delay" class="md-nav__link">
+    <span class="md-ellipsis">
+      なぜdelay()は嫌われるのか？ ノンブロッキング処理の勧め
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="なぜdelay()は嫌われるのか？ ノンブロッキング処理の勧め">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#millis" class="md-nav__link">
+    <span class="md-ellipsis">
+      millis()を使った解決策
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ledpwm" class="md-nav__link">
+    <span class="md-ellipsis">
+      LEDを暗くしたり明るくしたりしてみよう（PWM制御）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      発展：スイッチのチャタリングとデバウンス
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="発展：スイッチのチャタリングとデバウンス">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      ソフトウェアデバウンス
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="arduino-hello-worldled">Arduino言語での "Hello, World"とLEDの点滅</h1>
+<h2 id="arduino">Arduino言語の基本</h2>
+<p>まずは、Arduino言語のプログラムがどんな構造になっているか見てみましょう。</p>
+<pre><code class="language-cpp">void setup() {
+    // 初期化処理
+}
+
+void loop() {
+    // メインの処理
+}
+</code></pre>
+<p><code>setup()</code>関数はプログラムの最初に一度だけ実行される初期化処理を担当します。一方、<code>loop()</code>関数はプログラムが動いている間ずっと繰り返し実行されるメインの処理を書きます。C言語で例えると、こんな感じです。</p>
+<pre><code class="language-c">int main(){
+        setup();
+        while(1){
+                loop();
+        }
+}
+</code></pre>
+<p>この<code>while(1)</code>のループ構造が、マイコンプログラミングの基本です。電源が入っている限り、無限に<code>loop()</code>を呼び出し続けることで、外部からの入力や時間の経過に応じて動作し続けます。</p>
+<p>変数にはスコープがあるので、関数内で定義した変数はその関数の中だけで使えます。もし<code>setup()</code>で定義した変数を<code>loop()</code>でも使いたい場合は、グローバル変数として関数の外で定義する必要があります。</p>
+<p>一般的にはグローバル変数はあまり使わない方がいいとされていますが、マイコンではメモリが限られているため、そこまで問題になることは少なくグローバル変数を使うこともよくあります。</p>
+<p>では、実際にRaspberry Pi Picoを使って試してみましょう。基本的なソースコードは用意されているので、必要に応じて修正してみてください。</p>
+<h2 id="serial-hello-world">Serial通信で "Hello, World" を表示してみよう</h2>
+<pre><code class="language-cpp">void setup() {
+    Serial.begin(115200);
+}
+</code></pre>
+<details>
+<summary><b>横道：</b>通信速度 (Baud Rate) とは？</summary>
+`Serial.begin(115200)`の`115200`は**ボーレート（Baud Rate）**といい、1秒間に何ビットのデータを送れるかを示す通信速度の単位です。送信側と受信側でこの設定が合っていないと、データが正しく解釈されず、文字化け（通称「宇宙語」）が発生します。なぜ`9600`や`115200`といった一見中途半端な数字が使われるかというと、これらは歴史的に水晶発振子の周波数を整数で分周して作りやすい、標準的な速度だったからです。Raspberry Pi PicoのようなモダンなマイコンはUSBをネイティブにサポートしているため、この値はPCとの仮想的な通信ポートでの速度設定となり、古いシリアルポートほど厳密な意味は持ちませんが、お作法として設定しています。
+</details>
+
+<pre><code class="language-cpp">void loop() {
+    Serial.println(&quot;Hello, World!&quot;);
+    delay(1000);
+}
+</code></pre>
+<p>マイコンにはパソコンのような画面がないので、プログラムの実行結果を確認するには<strong>Serial通信</strong>（UARTとも呼ばれます）を使います。これは、マイコンとパソコンをUSBでつないで、シリアルポートを通じてデータをやり取りする方法です。</p>
+<p>Arduinoでは、<code>Serial</code>クラスを使うことで簡単にシリアル通信ができます。まず、<code>Serial.begin(115200);</code>で通信を開始し、<code>Serial.println("Hello, World!");</code>でデータを送信します。</p>
+<p>もし、通信ができない場合は、VSCodeの下の、シリアルポートを選択するところを確認してください(コネクタのマーク)。</p>
+<p><img alt="これの、コネクタのマーク" src="../images/tty.png" /></p>
+<details>
+<summary>Serial通信（UART）の詳細</summary>
+
+UARTはTXとRXという2本の線でデータを送受信する通信方式です。USB接続の場合、TXとRXの信号線をUART-USB変換チップを通して通信します。Raspberry Pi Picoにはこの変換チップが内蔵されているので、USBケーブルをつなぐだけでUART通信が可能です。他のマイコンと通信する場合は、TXとRXの信号線を直接接続します。
+
+UARTは歴史のある通信方式で、昔はRS-232Cという端子を使っていました。この方式は、大型コンピュータと端末（キーボードやディスプレイ）をつなぐのにも使われていました。
+</details>
+
+<details>
+<summary>クラスとは</summary>
+
+クラスは、データ（変数）とそのデータを操作する関数（メソッド）をひとまとめにした新しい変数のデータ型です。クラスを使うことで、プログラムを整理しやすくなります。
+
+Arduinoの`Serial`クラスはその一例で、シリアル通信に必要なデータや操作をまとめています。例えば、UART通信では0と1のビット列でデータを送受信しますが、制御信号やデータのビット数、受信バッファなどを管理する必要があります。`Serial`クラスは、これらをひとまとめにして提供してくれます。
+
+Arduinoには他にも便利なクラスが用意されています。例えば、センサとの通信に使う`Wire`クラスや、サーボモータを制御する`Servo`クラスなどがあります。これらを使えば、ハードウェアの操作が簡単にできます。
+</details>
+
+<details>
+<summary>クラスの初期化</summary>
+
+気づいた人もいるかもしれませんが、`Serial`クラスのインスタンスを自分で作っていませんよね。Arduinoでは、`Serial`クラスのインスタンスがあらかじめ用意されています。これは、Arduinoのライブラリが内部で`Serial`クラスのインスタンスを作成し、グローバル変数として提供しているからです。
+</details>
+
+<h2 id="led">LEDを光らせるための準備：抵抗の計算</h2>
+<p>ただライブラリを使ってLチカ（LEDをチカチカさせること）を動かすだけでは、本当の実力は身につきません。<strong>なぜその回路で動くのか、その部品はなぜ必要なのか</strong>を理解することが、自分で回路を設計する第一歩です。</p>
+<h3 id="_1">なぜ抵抗が必要か？</h3>
+<p>LEDは「Light Emitting Diode（発光ダイオード）」の略で、ダイオードの一種です。ダイオードは、一定の電圧（<strong>順方向電圧</strong>, V<sub>F</sub>）を超えると、急激に電流が流れる特性を持っています。もしマイコンのGPIOピン（3.3V）に直接LEDを接続すると、LEDに過大な電流が流れてしまい、一瞬で壊れてしまいます。最悪の場合、マイコンのピンを破損させる原因にもなります。</p>
+<p>そこで、LEDに流れる電流を適切な値に制限するために、<strong>電流制限抵抗</strong>を直列に接続します。</p>
+<h3 id="_2">オームの法則で抵抗値を計算する</h3>
+<p>抵抗値の計算には、中学校の理科で習った<strong>オームの法則</strong>を使います。 <code>電圧 (V) = 電流 (I) × 抵抗 (R)</code></p>
+<p><code>抵抗 (R) = 抵抗にかかる電圧 (V) / 流したい電流 (I)</code></p>
+<ul>
+<li><strong>抵抗にかかる電圧(V)</strong>: マイコンのピンの電圧（3.3V）から、LEDにかかる電圧（順方向電圧 V<sub>F</sub>）を引いた値です。</li>
+<li><strong>流したい電流(I)</strong>: LEDに流す電流（順方向電流 I<sub>F</sub>）です。</li>
+</ul>
+<p>一般的な赤色LEDの仕様は、データシートを見るとおよそ V<sub>F</sub> = 2.0V, I<sub>F</sub> = 20mA (0.02A) が最大定格です。安全を見て <strong>15mA (0.015A)</strong> 程度で計算しましょう。</p>
+<p><code>R = (3.3V - 2.0V) / 0.015A = 1.3V / 0.015A = 86.67 Ω</code></p>
+<p>この値ちょうどの抵抗はないので、近い値でこれより少し大きい、<strong>100Ω</strong> や <strong>220Ω</strong> の抵抗を選びます。</p>
+<details>
+<summary><b>横道：</b>抵抗での消費電力（ワット数）</summary>
+抵抗は電気エネルギーを熱エネルギーに変換することで電流を制限します。このとき消費される電力が**電力(P)**で、`電力(P) = 電圧(V) × 電流(I)`で計算できます。
+今回の抵抗には1.3Vの電圧がかかり、0.015Aの電流が流れるので、`P = 1.3V * 0.015A = 0.0195W` となります。
+私たちが普段使う小さな抵抗は、通常1/4W (0.25W)や1/8W (0.125W)の定格電力を持っています。0.0195Wは定格よりずっと小さいので、全く問題ありません。しかし、もっと大きな電流を扱う回路では、この計算を怠ると抵抗が焼き切れることがあります。
+</details>
+
+<h2 id="led_1">マイコンでLEDを点灯させてみよう</h2>
+<p>次はマイコンから物理的な対象を制御してみましょう。ここでは、LEDを点滅させてみます。
+回路図は以下のようになります。</p>
+<p>ソースコードです。</p>
+<pre><code class="language-cpp">#define LED_PIN 13
+
+void setup() {
+    pinMode(LED_PIN, OUTPUT); // LEDピンを出力モードに設定
+}
+
+void loop() {
+    digitalWrite(LED_PIN, HIGH); // LEDを点灯
+    delay(1000);                // 1秒待機
+    digitalWrite(LED_PIN, LOW);  // LEDを消灯
+    delay(1000);                // 1秒待機
+}
+</code></pre>
+<p>このプログラムでは、<code>#define</code>を使ってLEDが接続されているピン番号を指定しています。<code>pinMode()</code>関数でそのピンを出力モードに設定し、<code>digitalWrite()</code>関数でピンの状態をHIGH（点灯）またはLOW（消灯）に切り替えます。</p>
+<ul>
+<li>
+<p><code>#define</code>の役割</p>
+<ul>
+<li><code>#define</code>は定数を定義するために使用されます。この例では、<code>LED_PIN</code>に13を割り当てています。これにより、コードの可読性が向上し、ピン番号の変更も簡単です。</li>
+</ul>
+</li>
+<li>
+<p><code>pinMode()</code>関数
+    <code>pinMode()</code>はピンの動作モードを設定します。</p>
+<ul>
+<li><strong>OUTPUT</strong>: 出力モード（例: LED制御）。</li>
+<li><strong>INPUT</strong>: 入力モード（例: センサ読み取り）。</li>
+<li><strong>INPUT_PULLUP</strong>: 内部プルアップ抵抗を有効にした入力モード。</li>
+</ul>
+</li>
+<li>
+<p><code>digitalWrite()</code>関数</p>
+<ul>
+<li><code>digitalWrite()</code>はピンにHIGH（点灯）またはLOW（消灯）の信号を出力します。一度、HIGHにすると、そのままの電圧がかかり続けます。</li>
+</ul>
+</li>
+</ul>
+<details>
+<summary><b>横道：</b>論理レベル (Logic Level) とレベルシフタ</summary>
+`HIGH`が何ボルトを指すかはマイコンによって異なります。PicoやESP32のようなモダンなマイコンは**3.3V**系、古いArduino Unoなどは**5V**系です。異なる電圧系のデバイス間で通信を行う場合、細心の注意が必要です。
+
+- **5V → 3.3Vへの入力（危険！）**: 5V系のデバイスの出力を、3.3V系のマイコンの入力ピンに**絶対に直接接続してはいけません**。マイコンのピンが対応できる電圧（絶対最大定格）を超えてしまい、**ピンが物理的に破損する**原因になります。
+
+- **3.3V → 5Vへの入力（条件付きでOK）**: 逆に、3.3V系の出力を5V系の入力に接続する場合、多くの場合**直結しても動作します**。これは、多くの5V系デバイス（TTLやCMOSロジック）が、入力電圧の閾値（スレッショルド）として、2.0V〜2.4Vあたりを`HIGH`として認識するように設計されているためです。3.3Vはこの閾値を十分に超えているため、`HIGH`として正しく認識されます。ただし、これは常に保証されるわけではなく、ノイズマージンが減るなどの問題もあるため、確実な動作のためには後述のレベルシフトが推奨されます。
+
+#### レベル変換の方法
+安全で確実な通信のためには、**レベルシフタ（レベル変換回路）**を使います。専用のICもありますが、簡単な部品でも自作できます。
+
+##### 1. 抵抗分圧（5V→3.3V 片方向）
+5Vの信号を3.3Vに変換する最も簡単な方法は、2本の抵抗を使った**分圧回路**です。
+
+
+<pre><code>5V信号 --[ R1 ]--+-- 3.3Vマイコン入力ピン
+                |
+               [ R2 ]
+                |
+               GND
+</code></pre>
+
+`出力電圧 = 5V * (R2 / (R1 + R2))` の式が成り立つので、この出力が3.3Vに近くなるように抵抗を選びます。例えば、**R1=1kΩ, R2=2kΩ** を使うと、`5V * (2 / (1 + 2)) = 3.33V` となり、ちょうど良い電圧が得られます。これはあくまで入力信号用であり、大きな電流は流せません。
+
+##### 2. MOSFETを使った双方向レベルシフタ
+I2Cのように、1本の信号線が入力にも出力にもなる**双方向通信**の場合は、単純な分圧回路は使えません。こういう場合は、N-channel MOSFETというトランジスタを使うのが定石です。
+
+
+<pre><code>LV (3.3V) --[ プルアップ抵抗 ]-- LV側信号線 --+-- MOSFETのゲート(G)
+                                            |
+HV (5V)   --[ プルアップ抵抗 ]-- HV側信号線 --+-- MOSFETのドレイン(D)
+                                            |
+                                            +-- MOSFETのソース(S)
+</code></pre>
+
+*（回路図の挿入を推奨）*
+
+この回路は非常に賢く動作します。
+- **LV側(3.3V)がLOWを出力した時**: LV側信号線がGNDレベルになり、MOSFETのゲート(G)とソース(S)の電位差が3.3Vになります。するとMOSFETがONになり、HV側信号線がGNDに接続され、HV側もLOWになります。
+- **HV側(5V)がLOWを出力した時**: HV側信号線がGNDレベルになり、MOSFETの内部にあるボディダイオードを通じてソース(S)の電位も下がります。するとゲート(G)とソース(S)の電位差が大きくなりMOSFETがONになり、LV側もLOWになります。
+- **誰もLOWを出力しない時**: 両方の信号線はそれぞれのプルアップ抵抗によってHIGHになります。
+
+このようにして、どちら側からでも信号を伝えることができる、安価で効果的な双方向レベルシフタが実現できます。市販のI2Cレベルシフタモジュールは、基本的にこの回路で構成されています。
+</details>
+
+<ul>
+<li><code>delay()</code>関数<ul>
+<li><code>delay()</code>は指定した<strong>ミリ秒</strong>だけ処理を停止します。</li>
+</ul>
+</li>
+</ul>
+<h2 id="delay">なぜ<code>delay()</code>は嫌われるのか？ ノンブロッキング処理の勧め</h2>
+<p>上のLチカプログラムは完璧に見えますが、<code>delay(1000)</code>には大きな問題があります。<code>delay()</code>は、指定された時間だけ<strong>CPUを完全に停止</strong>させます。これを<strong>ブロッキング処理</strong>と呼びます。</p>
+<p>LEDを1秒おきに点滅させながら、ボタンが押されたら別のLEDを光らせる、という処理を考えてみましょう。</p>
+<pre><code class="language-cpp">// ダメな例
+void loop() {
+    // LEDを点灯
+    digitalWrite(LED_PIN, HIGH);
+    delay(1000); // この1秒間、下のボタン処理は完全に無視される！
+
+    // LEDを消灯
+    digitalWrite(LED_PIN, LOW);
+    delay(1000); // この1秒間も、ボタン処理は無視される！
+
+    // この処理は2秒に一瞬しか実行されない
+    if (digitalRead(BUTTON_PIN) == HIGH) {
+        digitalWrite(ANOTHER_LED_PIN, HIGH);
+    }
+}
+</code></pre>
+<p>これでは、ボタンを押しても最大2秒間反応がありません。これでは使い物になりません。</p>
+<h3 id="millis"><code>millis()</code>を使った解決策</h3>
+<p><code>delay()</code>の代わりに、<code>millis()</code>関数を使います。<code>millis()</code>は、プログラムが起動してからの経過時間をミリ秒単位で返します。これと前回の実行時間を比較することで、<strong>CPUを止めずに</strong>一定時間待つのと同じ効果が得られます。これを<strong>ノンブロッキング処理</strong>と呼びます。</p>
+<pre><code class="language-cpp">#define LED_PIN 13
+const long interval = 1000; // 点滅間隔
+unsigned long previousMillis = 0; // 最後にLEDの状態を変えた時間
+int ledState = LOW; // LEDの状態
+
+void setup() {
+    pinMode(LED_PIN, OUTPUT);
+}
+
+void loop() {
+    // 現在の時間を取得
+    unsigned long currentMillis = millis();
+
+    // 前回の実行からinterval以上経過したか？
+    if (currentMillis - previousMillis &gt;= interval) {
+        // 時間を更新
+        previousMillis = currentMillis;
+
+        // LEDの状態を反転
+        if (ledState == LOW) {
+            ledState = HIGH;
+        } else {
+            ledState = LOW;
+        }
+        digitalWrite(LED_PIN, ledState);
+    }
+
+    // ここに他の処理を書ける！
+    // 例えばボタンの処理など。Lチカの待ち時間に関係なく、毎ループ実行される。
+    // if (digitalRead(BUTTON_PIN) == HIGH) { ... }
+}
+</code></pre>
+<p>この書き方は、一見複雑ですが、複数の処理を同時に（正確には、ごく短い間隔で切り替えながら）実行する、応答性の高いプログラムを作るための基本テクニックです。</p>
+<h3 id="ledpwm">LEDを暗くしたり明るくしたりしてみよう（PWM制御）</h3>
+<h2 id="_3">発展：スイッチのチャタリングとデバウンス</h2>
+<p><code>INPUT</code>モードでスイッチ（タクトスイッチなど）の状態を読むとき、新たな問題が発生します。スイッチは物理的な金属接点なので、押した瞬間や離した瞬間に、目に見えない速さでON/OFFを何度も繰り返します。これを<strong>チャタリング（chattering）</strong>と呼びます。</p>
+<p>もし「ボタンが押されたらカウンターを1増やす」というプログラムを単純に書くと、1回押しただけなのにカウンターが5も10も増えてしまう現象が発生します。これを防ぐ処理が<strong>デバウンス（debounce）</strong>です。</p>
+<pre><code class="language-cpp">// デバウンス処理を行わない、チャタリングに弱いコード
+void loop() {
+    // 押された瞬間（LOWになった瞬間）を検出
+    if (digitalRead(BUTTON_PIN) == LOW) {
+        counter++;
+        Serial.println(counter);
+        // この後、スイッチが物理的にバウンドしている間、
+        // loopは高速で回り続けるので、何度もLOWを検出してしまう
+        while(digitalRead(BUTTON_PIN) == LOW); // 押しっぱなしの間は待つ
+    }
+}
+</code></pre>
+<h3 id="_4">ソフトウェアデバウンス</h3>
+<p><code>millis()</code>を使い、一度スイッチの状態変化を検出したら、その後数十ミリ秒はスイッチの状態を見ないようにすることで、チャタリングを無視します。</p>
+<pre><code class="language-cpp">const int BUTTON_PIN = 2;
+unsigned long lastDebounceTime = 0; // 最後にチャタリングを検出した時間
+unsigned long debounceDelay = 50;   // 50msはチャタリングを見ない
+
+void setup() {
+    pinMode(BUTTON_PIN, INPUT_PULLUP); // 内部プルアップを有効化
+}
+
+void loop() {
+    int reading = digitalRead(BUTTON_PIN);
+
+    // 状態が変化し、かつチャタリング待機時間を超えていたら
+    if (reading != lastButtonState) {
+        lastDebounceTime = millis();
+    }
+
+    if ((millis() - lastDebounceTime) &gt; debounceDelay) {
+        // 状態が安定したと判断
+        if (reading != buttonState) {
+            buttonState = reading;
+            // 押された瞬間（HIGH-&gt;LOW）なら何かする
+            if (buttonState == LOW) {
+                // ... ボタンが押された時の処理 ...
+            }
+        }
+    }
+    lastDebounceTime = reading;
+}
+</code></pre>
+<p><em>（上記は概念を示すコードです。完全な動作にはもう少し状態管理が必要です）</em></p>
+<details>
+<summary><b>横道：</b>ハードウェアデバウンス</summary>
+RC回路（抵抗とコンデンサ）を使って、物理的にチャタリングを抑制することもできます。コンデンサがスイッチのON/OFFによる急な電圧変化を「なまらせる」効果を利用します。ソフトウェアの負荷を減らしたい場合や、より確実なデバウンスが必要な場合に採用されます。
+</details>
+
+<details>
+<summary><b>究極の道：</b>割り込み (Interrupts)</summary>
+ボタンが押されたかどうかを`loop()`の中で毎回`digitalRead()`で確認しにいく方法を**ポーリング**と呼びます。しかし、もっと効率的な方法があります。それが**割り込み**です。
+「ボタンがつながっているピンの電圧が変化したら、今やっている処理を一旦中断して、指定した関数を即座に実行する」という仕組みをCPUレベルで設定できます。
+`attachInterrupt(digitalPinToInterrupt(pin), function, mode);`
+これを使えば、`loop()`の中ではボタンのことを気にする必要がなくなり、ボタンが押された瞬間に、ミリ秒単位の遅延もなく、指定した処理を実行できます。非常に応答性が高く、CPUの負荷も低い、高度なテクニックです。ただし、割り込み処理関数（ISR: Interrupt Service Routine）内では`delay()`が使えないなど、いくつかの制約もあります。
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../chapter1/" class="md-footer__link md-footer__link--prev" aria-label="Previous: マイコンの基礎知識">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                マイコンの基礎知識
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../chapter3/" class="md-footer__link md-footer__link--next" aria-label="Next: 概要">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                概要
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.footer"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>
