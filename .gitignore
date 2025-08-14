@@ -3,3 +3,4 @@ GEMINI.md
 .pio/
 .vscode/
 texts/site/
+.env
