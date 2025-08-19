@@ -1,9 +1,9 @@
 #include <Arduino.h>
-#define SENSOR_PIN 26 // フォトリフレクタのOUTを接続するピン (ADC0)
+#define SENSOR_PIN 26 // フォトリフレクタのOUTを接続するピン (ADC2)
 
 void setup() {
     Serial.begin(115200); // シリアル通信の開始
-    // アナログピンは pinMode の設定は不要
+    analogReadResolution(12); // ADCの解像度を12ビットに設定 (0〜4095)
 }
 
 long readAverage(int pin, int samples) {
@@ -17,7 +17,7 @@ long readAverage(int pin, int samples) {
 
 void loop() {
     // analogReadでセンサーの値を読み取る (0〜4095の範囲)
-    int sensorValue = readAverage(SENSOR_PIN, 10); // 10回の測定値の平均を取る
+    int sensorValue = analogRead(SENSOR_PIN);
 
     // 読み取った値をシリアルモニタに表示
     Serial.print("Sensor Value: ");

@@ -1,24 +1,17 @@
 #include <Arduino.h>
 #include <Servo.h>
 
+#define SERVO_PIN 20
 Servo myservo;
-const int servoPin = 15;
-const int analogPin = 26; // アナログ入力ピン
 
-void setup() {
-    myservo.attach(servoPin);
-    // アナログピンはpinMode不要
+
+void setup(){
+    myservo.attach(SERVO_PIN);
 }
 
-void loop() {
-    // アナログ値を読み取る (0-4095)
-    int sensorValue = analogRead(analogPin);
-
-    // センサーの値をサーボの角度(0-180)に変換する
-    // map(value, fromLow, fromHigh, toLow, toHigh)
-    int angle = map(sensorValue, 0, 4095, 0, 180);
-
-    // サーボに角度を指示
-    myservo.write(angle);
-    delay(15);
+void loop(){
+    myservo.write(90); // Set servo to 90 degrees
+    delay(1000);
+    myservo.write(0); // Set servo to 0 degrees
+    delay(1000);
 }
