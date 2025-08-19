@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#define LED_PIN 13
+#define LED_PIN 15
 const long interval = 1000; // 点滅間隔
 unsigned long previousMillis = 0; // 最後にLEDの状態を変えた時間
 int ledState = LOW; // LEDの状態
