@@ -1,0 +1,912 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://komoriyuta.github.io/dennou-microcontroller/chapter4/">
+      
+      
+        <link rel="prev" href="../chapter3/variable_resistor/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>応用的な作例の制作 - マイコン講習会</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter4" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="マイコン講習会" class="md-header__button md-logo" aria-label="マイコン講習会" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            マイコン講習会
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              応用的な作例の制作
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/komoriyuta/dennou-microcontroller" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="マイコン講習会" class="md-nav__button md-logo" aria-label="マイコン講習会" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    マイコン講習会
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/komoriyuta/dennou-microcontroller" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    はじめに
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    マイコンの基礎知識
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    C/C++言語での "Hello, World"（Lチカ）
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    各種センサー・アクチュエーターの基本的な使い方
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            各種センサー・アクチュエーターの基本的な使い方
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    概要
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter3/sg90/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    サーボモーター(SG90)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter3/mpu6050/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6軸センサー(MPU-6050)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter3/variable_resistor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    可変抵抗器
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    応用的な作例の制作
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    応用的な作例の制作
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      作例：物理的な水平器（セルフバランシング・プラットフォーム）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="作例：物理的な水平器（セルフバランシング・プラットフォーム）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      システムの構造
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      核となる考え方：「閉ループ・フィードバック制御」
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      実装のヒント
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      作例2：抵抗とピンだけで作る静電容量タッチセンサー
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="作例2：抵抗とピンだけで作る静電容量タッチセンサー">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rc" class="md-nav__link">
+    <span class="md-ellipsis">
+      原理：RC時定数と身体の静電容量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      回路図
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      プログラム
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      作例：物理的な水平器（セルフバランシング・プラットフォーム）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="作例：物理的な水平器（セルフバランシング・プラットフォーム）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      システムの構造
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      核となる考え方：「閉ループ・フィードバック制御」
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      実装のヒント
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      作例2：抵抗とピンだけで作る静電容量タッチセンサー
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="作例2：抵抗とピンだけで作る静電容量タッチセンサー">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rc" class="md-nav__link">
+    <span class="md-ellipsis">
+      原理：RC時定数と身体の静電容量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      回路図
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      プログラム
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="chapter4">Chapter4: 応用的な作例の制作：フィードバック制御への挑戦</h1>
+<p>これまでの章で、私たちはセンサーから情報を読み取り、アクチュエーターを動かす個別の技術を学んできました。この章では、それらの知識を統合し、より高度で実用的なシステム、<strong>「フィードバック制御」</strong>を実装する作例に挑戦します。</p>
+<h2 id="_1">作例：物理的な水平器（セルフバランシング・プラットフォーム）</h2>
+<p>ここで制作するのは、傾きを検知して、自ら水平を保とうと動き続ける台（プラットフォーム）です。</p>
+<ul>
+<li><strong>目的</strong>: <code>MPU-6050</code>で検出した傾斜角度に基づき、<code>SG90</code>サーボモーターをリアルタイムに制御して、サーボに取り付けた台が常に水平になるように保つ。</li>
+<li><strong>使用部品</strong>:<ul>
+<li><code>MPU-6050</code> (6軸センサー)</li>
+<li><code>SG90</code> (サーボモーター)</li>
+<li>小さな板や厚紙など（サーボホーンに取り付ける台）</li>
+</ul>
+</li>
+</ul>
+<h3 id="_2">システムの構造</h3>
+<ol>
+<li>サーボホーンの上に、小さな板などで台座を作ります。</li>
+<li>その台座の上に、MPU-6050を設置します。</li>
+<li>人間が手で台座全体を傾けると、MPU-6050がその傾きを検知します。</li>
+<li>プログラムは、検知した傾きと「目標の角度（水平＝0度）」との<strong>差（誤差）</strong>を計算します。</li>
+<li>その誤差を打ち消す方向に、サーボモーターを動かします。</li>
+<li>この処理を、人間の目には止まって見えるほどの速さで繰り返します。</li>
+</ol>
+<h3 id="_3">核となる考え方：「閉ループ・フィードバック制御」</h3>
+<p>このシステムは、電子制御の最も重要な概念の一つである<strong>「閉ループ・フィードバック制御」</strong>の簡単な実装例です。</p>
+<p><code>センサーで現状を観測</code> → <code>目標との誤差を計算</code> → <code>誤差を減らすようにアクチュエーターを操作</code> → <code>操作の結果を再びセンサーで観測</code> → ...</p>
+<p>この一連の流れ（ループ）が、システムを常に安定した状態（今回は水平）に収束させようと働きます。</p>
+<h3 id="_4">実装のヒント</h3>
+<p>完全なコードは示しませんが、<code>loop()</code>関数の中核は以下のようになります。Chapter3で使った<code>MPU6050_tockn</code>ライブラリの知識が役立ちます。</p>
+<pre><code class="language-cpp">void loop() {
+  mpu6050.update(); // センサー値を更新
+
+  // 1. MPU-6050から現在の傾斜角度を取得する (Y軸回りの傾きを取得)
+  float currentAngle = mpu6050.getAngleY();
+
+  // 2. 目標角度(0度)との誤差を計算する
+  float error = 0 - currentAngle;
+
+  // 3. 誤差に基づいてサーボの目標角度を決定する
+  float servoAngle = 90 + error * gain; // 'gain'は調整用の係数
+
+  // 4. サーボの角度を制限する (0〜180度の範囲に収める)
+  servoAngle = constrain(servoAngle, 0, 180);
+
+  // 5. サーボに角度を指示する
+  myservo.write(servoAngle);
+
+  delay(10);
+}
+</code></pre>
+<p>この <code>gain</code> という係数（Pゲインと呼ばれます）を調整することが、この作例のキモとなります。
+-   <code>gain</code>が小さすぎると、傾きに対する反応が鈍く、水平に戻りきりません。
+-   <code>gain</code>が大きすぎると、反応が過敏になり、サーボが激しく振動（ハンチング）してしまいます。</p>
+<p>ちょうど良い<code>gain</code>の値を見つけ出し、台座がスムーズに水平を保つようになった時、あなたはフィードバック制御の第一歩をマスターしたと言えるでしょう。</p>
+<hr />
+<h2 id="2">作例2：抵抗とピンだけで作る静電容量タッチセンサー</h2>
+<p>機械的なスイッチの次は、動く部品が一切ない、魔法のようなタッチセンサーを作ってみましょう。これは、高価な専用ICを使わずに、<strong>マイコンのピン2本、高抵抗1本、そして少しの電線</strong>だけで実現できる、非常に奥が深い作例です。</p>
+<ul>
+<li><strong>目的</strong>: <code>RC回路</code>の充放電時間の変化を測定することで、指の接近・接触を検出する。</li>
+<li><strong>使用部品</strong>:<ul>
+<li>高抵抗（1MΩなど、100kΩ〜10MΩ程度） x 1</li>
+<li>ジャンパワイヤ（タッチ部分になる）</li>
+</ul>
+</li>
+</ul>
+<h3 id="rc">原理：RC時定数と身体の静電容量</h3>
+<p>この技術の核心は<strong>RC回路の充放電時間</strong>です。
+1.  コンデンサ(Capacitor)は、抵抗(Resistor)を通して充放電するとき、電圧が変化するのに一定の時間がかかります。この時間の目安を<strong>時定数(τ = R × C)</strong>と呼びます。
+2.  人間の身体は、電気を蓄えることができる一種のコンデンサです。
+3.  タッチセンサーとして使う電線に指を近づけたり触れたりすると、身体の<strong>静電容量(C)</strong>が回路に加わります。
+4.  Cが増加すると、時定数(τ)も増加し、コンデンサの充電にかかる時間が<strong>長く</strong>なります。</p>
+<p>この「充電にかかる時間の変化」を測定することで、タッチを検出します。</p>
+<h3 id="_5">回路図</h3>
+<p>非常にシンプルです。<code>SEND_PIN</code>から<code>RECEIVE_PIN</code>へ、非常に大きな抵抗（<strong>1MΩ</strong>など）を接続し、<code>RECEIVE_PIN</code>からタッチするための電線を伸ばします。</p>
+<pre><code>           +-- SEND_PIN (例: GP14)
+           |
+           R (1MΩ)
+           |
+RECEIVE_PIN ---+-- 電線やアルミホイル（タッチ部分）
+(例: GP15)
+</code></pre>
+<h3 id="_6">プログラム</h3>
+<p>以下のプログラムは、<code>SEND_PIN</code>から<code>RECEIVE_PIN</code>へ電流を流し、<code>RECEIVE_PIN</code>の電圧が<code>HIGH</code>になるまでの時間をマイクロ秒単位で測定します。</p>
+<pre><code class="language-cpp">#define SEND_PIN 14
+#define RECEIVE_PIN 15
+#define THRESHOLD 100 // この閾値は環境によって要調整
+
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    long duration = readCapacitivePin();
+
+    Serial.print(&quot;Duration: &quot;);
+    Serial.print(duration);
+
+    if (duration &gt; THRESHOLD) {
+        Serial.println(&quot; - Touched!&quot;);
+    } else {
+        Serial.println(&quot;&quot;);
+    }
+    delay(100);
+}
+
+long readCapacitivePin() {
+    // 1. RECEIVEピンを出力LOWにして、コンデンサを放電させる
+    pinMode(RECEIVE_PIN, OUTPUT);
+    digitalWrite(RECEIVE_PIN, LOW);
+    delay(1); // 放電を確実にする
+
+    // 2. SENDピンを出力HIGHにして、充電を開始する準備
+    pinMode(SEND_PIN, OUTPUT);
+    digitalWrite(SEND_PIN, HIGH);
+
+    // 3. RECEIVEピンを入力モードに戻す（ここから充電時間測定開始）
+    pinMode(RECEIVE_PIN, INPUT);
+
+    // 4. 時間測定開始
+    long startTime = micros();
+
+    // 5. RECEIVEピンがHIGHになるまで待つ
+    while(digitalRead(RECEIVE_PIN) == LOW) {
+        // タイムアウト処理を入れるのが望ましいが、ここでは省略
+    }
+
+    long endTime = micros();
+
+    // 6. SENDピンを低インピーダンス状態にして、次の測定に影響が出ないようにする
+    pinMode(SEND_PIN, INPUT);
+
+    return endTime - startTime;
+}
+</code></pre>
+<p>まずは<code>THRESHOLD</code>を大きな値にして実行し、タッチしていない時とタッチした時の<code>Duration</code>の値を観察してください。そして、その2つの値の間に<code>THRESHOLD</code>を設定すれば、あなただけのタッチボタンの完成です。</p>
+<p>このように、マイコンの機能を深く理解すれば、最小限の部品で高度な機能を実現できるのです。</p>
+<p>この <code>gain</code> という係数（Pゲインと呼ばれます）を調整することが、この作例のキモとなります。
+-   <code>gain</code>が小さすぎると、傾きに対する反応が鈍く、水平に戻りきりません。
+-   <code>gain</code>が大きすぎると、反応が過敏になり、サーボが激しく振動（ハンチング）してしまいます。</p>
+<p>ちょうど良い<code>gain</code>の値を見つけ出し、台座がスムーズに水平を保つようになった時、あなたはフィードバック制御の第一歩をマスターしたと言えるでしょう。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../chapter3/variable_resistor/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 可変抵抗器">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                可変抵抗器
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.footer"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>

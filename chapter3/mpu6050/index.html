@@ -1,0 +1,1189 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://komoriyuta.github.io/dennou-microcontroller/chapter3/mpu6050/">
+      
+      
+        <link rel="prev" href="../sg90/">
+      
+      
+        <link rel="next" href="../variable_resistor/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
+    
+    
+      
+        <title>6軸センサー(MPU-6050) - マイコン講習会</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#6mpu-6050" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="マイコン講習会" class="md-header__button md-logo" aria-label="マイコン講習会" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            マイコン講習会
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6軸センサー(MPU-6050)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/komoriyuta/dennou-microcontroller" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="マイコン講習会" class="md-nav__button md-logo" aria-label="マイコン講習会" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    マイコン講習会
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/komoriyuta/dennou-microcontroller" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    はじめに
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    マイコンの基礎知識
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    C/C++言語での "Hello, World"（Lチカ）
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    各種センサー・アクチュエーターの基本的な使い方
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            各種センサー・アクチュエーターの基本的な使い方
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    概要
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sg90/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    サーボモーター(SG90)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    6軸センサー(MPU-6050)
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    6軸センサー(MPU-6050)
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#i2c-inter-integrated-circuit" class="md-nav__link">
+    <span class="md-ellipsis">
+      通信方式：I2C (Inter-Integrated Circuit)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="通信方式：I2C (Inter-Integrated Circuit)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      回路図と接続
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      ライブラリとプログラム
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ライブラリとプログラム">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      サンプルコード
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2Cトラブルシューティング：動かないときは？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      サンプルコード
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i2c_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2Cトラブルシューティング：動かないときは？
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      センサーフュージョン：ライブラリが裏側でやっていること
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../variable_resistor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    可変抵抗器
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    応用的な作例の制作
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#i2c-inter-integrated-circuit" class="md-nav__link">
+    <span class="md-ellipsis">
+      通信方式：I2C (Inter-Integrated Circuit)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="通信方式：I2C (Inter-Integrated Circuit)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      回路図と接続
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      ライブラリとプログラム
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ライブラリとプログラム">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      サンプルコード
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2Cトラブルシューティング：動かないときは？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      サンプルコード
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i2c_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2Cトラブルシューティング：動かないときは？
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      センサーフュージョン：ライブラリが裏側でやっていること
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="6mpu-6050">6軸センサー(MPU-6050)の使い方</h1>
+<p>MPU-6050は、3軸の加速度センサーと3軸のジャイロセンサーを1つのチップに搭載した、高性能な6軸慣性計測ユニット（IMU）です。物体の傾きや動き、回転を検出できます。</p>
+<h2 id="i2c-inter-integrated-circuit">通信方式：I2C (Inter-Integrated Circuit)</h2>
+<p>MPU-6050との通信には、<strong>I2C</strong>という2本の線（SDA:データ, SCL:クロック）だけで多数のデバイスと通信できる、非常に便利なシリアル通信方式を使います。各デバイスは固有の<strong>アドレス</strong>を持っており、マイコン（マスター）はアドレスを指定して特定のデバイス（スレーブ）と通信します。MPU-6050のデフォルトアドレスは<code>0x68</code>です。</p>
+<h3 id="_1">回路図と接続</h3>
+<p>MPU-6050モジュールを、Raspberry Pi PicoのI2C0ポートに接続します。</p>
+<p><em>（ここに <code>circuits.drawio</code> で作成したMPU-6050の回路図を挿入）</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">MPU-6050</th>
+<th style="text-align: left;">Raspberry Pi Pico</th>
+<th style="text-align: left;">機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">VCC</td>
+<td style="text-align: left;">3.3V (OUT)</td>
+<td style="text-align: left;">電源</td>
+</tr>
+<tr>
+<td style="text-align: center;">GND</td>
+<td style="text-align: left;">GND</td>
+<td style="text-align: left;">グラウンド</td>
+</tr>
+<tr>
+<td style="text-align: center;">SCL</td>
+<td style="text-align: left;">GP5 (I2C0 SCL)</td>
+<td style="text-align: left;">クロック</td>
+</tr>
+<tr>
+<td style="text-align: center;">SDA</td>
+<td style="text-align: left;">GP4 (I2C0 SDA)</td>
+<td style="text-align: left;">データ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>補足</strong>: 私たちが使うMPU-6050モジュールには、I2Cに必要なプルアップ抵抗が既に取り付けられています。そのため、追加の抵抗は不要です。</p>
+<details>
+<summary><b>横道：</b>I2C vs SPI</summary>
+
+マイコン用の通信規格には、I2Cと並んで**SPI (Serial Peripheral Interface)**もよく使われます。どちらもマスター・スレーブ型の同期式シリアル通信ですが、大きな違いがあります。
+
+| 特徴         | I2C                               | SPI                                       |
+| :----------- | :-------------------------------- | :---------------------------------------- |
+| **信号線**   | 2本 (SDA, SCL)                    | 4本 (MISO, MOSI, SCK, CS)                 |
+| **接続形態** | バス型（全デバイスを並列接続）    | スター型（CS線でデバイスを選択）          |
+| **通信速度** | やや遅い (標準100kbps, 高速400kbps) | 非常に高速 (数Mbps〜数十Mbps)             |
+| **通信方式** | 半二重                            | 全二重（送受信を同時に行える）            |
+| **利点**     | 配線が少なく、デバイス追加が容易  | 高速、構造がシンプルで確実                |
+| **欠点**     | 速度が遅め、アドレス競合の可能性  | 配線が多い、デバイス数だけCS線が必要      |
+
+**使い分け**: SDカードや高速なディスプレイのように大量のデータを高速に送受信したい場合はSPI、センサーのように比較的低速で、多数のデバイスを少ない配線でつなぎたい場合はI2Cが適しています。
+
+</details>
+
+<h2 id="_2">ライブラリとプログラム</h2>
+<p>高機能なセンサーは、内部の多数の<strong>レジスタ</strong>を読み書きして制御しますが、これを手動で行うのは大変です。そのため、通常は<strong>ライブラリ</strong>を使います。<code>platformio.ini</code>に以下を追記してください。</p>
+<pre><code class="language-ini">lib_deps =
+    adafruit/Adafruit MPU6050
+    adafruit/Adafruit Unified Sensor
+    adafruit/Adafruit BusIO
+</code></pre>
+<h3 id="_3">サンプルコード</h3>
+<p>まずは、Adafruitのライブラリに付属するサンプルコードを動かしてみましょう。</p>
+<pre><code class="language-cpp">#include &lt;Adafruit_MPU6050.h&gt;
+#include &lt;Adafruit_Sensor.h&gt;
+#include &lt;Wire.h&gt;
+
+Adafruit_MPU6050 mpu;
+
+float angle = 0.0;
+float accel_angle = 0.0;
+float gyro_rate = 0.0;
+unsigned long last_time;
+
+void setup(void) {
+    Serial.begin(115200);
+    if (!mpu.begin()) {
+        Serial.println(&quot;Failed to find MPU6050 chip&quot;);
+        while (1) { delay(10); }
+    }
+    Serial.println(&quot;MPU6050 Found!&quot;);
+    last_time = micros();
+}
+
+void loop() {
+    sensors_event_t a, g, temp;
+    mpu.getEvent(&amp;a, &amp;g, &amp;temp);
+
+    // 加速度から角度を計算 (atan2を使用)
+    accel_angle = atan2(a.acceleration.y, a.acceleration.z) * 180 / PI;
+
+    // ジャイロの角速度
+    gyro_rate = g.gyro.x;
+
+    // 経過時間を計算
+    unsigned long current_time = micros();
+    float dt = (current_time - last_time) / 1000000.0;
+    last_time = current_time;
+
+    // 相補フィルター
+    angle = 0.98 * (angle + gyro_rate * dt) + 0.02 * accel_angle;
+
+    Serial.println(angle);
+    delay(10);
+}
+</code></pre>
+<h3 id="i2c">I2Cトラブルシューティング：動かないときは？</h3>
+<p>「<code>Failed to find MPU6050 chip</code>」と表示されて動かない！これはI2C通信で誰もが通る道です。原因の多くは以下の通りです。
+- 配線が間違っている（SDAとSCLが逆、VCC/GNDが抜けている等）
+- MPU-6050のI2Cアドレスが<code>0x68</code>ではない（モジュールによっては<code>0x69</code>の場合がある）
+- センサーの故障</p>
+<p>こういう時、まず最初にやるべきことは<strong>「I2Cバススキャナ」</strong>を動かして、マイコンがI2Cデバイスを認識できているかを確認することです。
+現在の<code>main.ino</code>を、一時的に以下のI2Cスキャナのコードに<strong>完全に書き換え</strong>てみましょう。</p>
+<pre><code class="language-cpp">// I2C Scanner
+#include &lt;Wire.h&gt;
+
+void setup() {
+    Wire.begin();
+    Serial.begin(115200);
+    # 6軸センサー(MPU-6050)の使い方
+
+MPU-6050は、3軸の加速度センサーと3軸のジャイロセンサーを1つのチップに搭載した、高性能な6軸慣性計測ユニット（IMU）です。物体の傾きや動き、回転を検出できます。
+
+## 通信方式：I2C (Inter-Integrated Circuit)
+
+MPU-6050との通信には、**I2C**という2本の線（SDA:データ, SCL:クロック）だけで多数のデバイスと通信できる、非常に便利なシリアル通信方式を使います。各デバイスは固有の**アドレス**を持っており、マイコン（マスター）はアドレスを指定して特定のデバイス（スレーブ）と通信します。MPU-6050のデフォルトアドレスは`0x68`です。
+
+### 回路図と接続
+
+MPU-6050モジュールを、Raspberry Pi PicoのI2Cポートに接続します。Picoは複数のI2Cポートを持っていますが、ここでは`Wire1` (GP15, GP14) を使用します。
+
+*（ここに `circuits.drawio` で作成したMPU-6050の回路図を挿入）*
+
+| MPU-6050 | Raspberry Pi Pico | 機能       |
+| :       | :---------------- | :--------- |
+| VCC      | 3.3V (OUT)        | 電源       |
+| GND      | GND               | グラウンド |
+| SCL      | GP15 (I2C1 SCL)   | クロック   |
+| SDA      | GP14 (I2C1 SDA)   | データ     |
+
+**補足**: 私たちが使うMPU-6050モジュールには、I2Cに必要なプルアップ抵抗が既に取り付けられています。そのため、追加の抵抗は不要です。
+
+&lt;details&gt;
+&lt;summary&gt;&lt;b&gt;横道：&lt;/b&gt;I2C vs SPI&lt;/summary&gt;
+
+マイコン用の通信規格には、I2Cと並んで**SPI (Serial Peripheral Interface)**もよく使われます。どちらもマスター・スレーブ型の同期式シリアル通信ですが、大きな違いがあります。
+
+| 特徴         | I2C                               | SPI                                       |
+| :----------- | :-------------------------------- | :---------------------------------------- |
+| **信号線**   | 2本 (SDA, SCL)                    | 4本 (MISO, MOSI, SCK, CS)                 |
+| **接続形態** | バス型（全デバイスを並列接続）    | スター型（CS線でデバイスを選択）          |
+| **通信速度** | やや遅い (標準100kbps, 高速400kbps) | 非常に高速 (数Mbps〜数十Mbps)             |
+| **通信方式** | 半二重                            | 全二重（送受信を同時に行える）            |
+| **利点**     | 配線が少なく、デバイス追加が容易  | 高速、構造がシンプルで確実                |
+| **欠点**     | 速度が遅め、アドレス競合の可能性  | 配線が多い、デバイス数だけCS線が必要      |
+
+**使い分け**: SDカードや高速なディスプレイのように大量のデータを高速に送受信したい場合はSPI、センサーのように比較的低速で、多数のデバイスを少ない配線でつなぎたい場合はI2Cが適しています。
+
+&lt;/details&gt;
+
+## ライブラリとプログラム
+
+高機能なセンサーは、内部の多数の**レジスタ**を読み書きして制御しますが、これを手動で行うのは大変です。そのため、通常は**ライブラリ**を使います。`platformio.ini`に以下を追記してください。
+
+```ini
+lib_deps =
+    tockn/MPU6050_tockn
+</code></pre>
+<h3 id="_4">サンプルコード</h3>
+<p>以下のコードは、MPU-6050から角度データを読み取り、シリアルモニタに出力し続けます。</p>
+<pre><code class="language-cpp">#include &lt;Arduino.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;MPU6050_tockn.h&gt;
+#define SDA_PIN 14
+#define SCL_PIN 15
+MPU6050 mpu6050(Wire1);
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println(&quot;Initializing I2C...&quot;);
+  pinMode(SDA_PIN, INPUT_PULLUP);
+  pinMode(SCL_PIN, INPUT_PULLUP);
+  Wire1.setSDA(SDA_PIN);
+  Wire1.setSCL(SCL_PIN);
+  Wire1.begin();
+  mpu6050.begin();
+  Serial.println(&quot;MPU6050 initialized&quot;);
+  mpu6050.calcGyroOffsets(true); // ジャイロのオフセットをキャリブレーション
+}
+
+void loop() {
+  mpu6050.update(); // センサー値を更新
+
+  Serial.print(&quot;angleX: &quot;);
+  Serial.print(mpu6050.getAngleX());
+  Serial.print(&quot;    angleY: &quot;);
+  Serial.print(mpu6050.getAngleY());
+  Serial.print(&quot;    angleZ: &quot;);
+  Serial.println(mpu6050.getAngleZ());
+
+  delay(10);
+}
+</code></pre>
+<h3 id="i2c_1">I2Cトラブルシューティング：動かないときは？</h3>
+<p>「<code>MPU6050 initialized</code>」の表示の後、値が表示されない、または<code>begin()</code>で止まってしまう！これはI2C通信で誰もが通る道です。原因の多くは以下の通りです。
+- 配線が間違っている（SDAとSCLが逆、VCC/GNDが抜けている等）
+- MPU-6050のI2Cアドレスが<code>0x68</code>ではない（モジュールによっては<code>0x69</code>の場合がある）
+- センサーの故障</p>
+<p>こういう時、まず最初にやるべきことは<strong>「I2Cバススキャナ」</strong>を動かして、マイコンがI2Cデバイスを認識できているかを確認することです。
+現在の<code>main.cpp</code>を、一時的に以下のI2Cスキャナのコードに<strong>完全に書き換え</strong>てみましょう。</p>
+<pre><code class="language-cpp">// I2C Scanner
+#include &lt;Wire.h&gt;
+
+void setup() {
+    Wire1.setSDA(14); // 使用するSDAピン
+    Wire1.setSCL(15); // 使用するSCLピン
+    Wire1.begin();
+    Serial.begin(115200);
+    Serial.println(&quot;
+I2C Scanner on Wire1&quot;);
+}
+
+void loop() {
+    byte error, address;
+    int nDevices;
+    Serial.println(&quot;Scanning...&quot;);
+    nDevices = 0;
+    for(address = 1; address &lt; 127; address++ ) {
+        Wire1.beginTransmission(address);
+        error = Wire1.endTransmission();
+        if (error == 0) {
+            Serial.print(&quot;I2C device found at address 0x&quot;);
+            if (address&lt;16) {
+                Serial.print(&quot;0&quot;);
+            }
+            Serial.println(address, HEX);
+            nDevices++;
+        }
+        else if (error==4) {
+            Serial.print(&quot;Unknown error at address 0x&quot;);
+            if (address&lt;16) {
+                Serial.print(&quot;0&quot;);
+            }
+            Serial.println(address, HEX);
+        }
+    }
+    if (nDevices == 0) {
+        Serial.println(&quot;No I2C devices found
+&quot;);
+    }
+    else {
+        Serial.println(&quot;done
+&quot;);
+    }
+    delay(5000);
+}
+</code></pre>
+<p>このコードを実行すると、<code>0x01</code>から<code>0x7F</code>までの全てのアドレスに応答があるかを確認し、見つかったデバイスのアドレスをシリアルモニタに表示します。
+- <strong><code>I2C device found at address 0x68</code></strong> と表示されれば、配線は正しく、センサーも生きています。ライブラリ側の問題の可能性があります。
+- <strong><code>No I2C devices found</code></strong> と表示されたら、配線を徹底的に見直しましょう。それでもダメなら、センサーの故障を疑います。</p>
+<details>
+<summary><b>横道：</b>データシートを読んでみよう</summary>
+ライブラリは便利ですが、ブラックボックスです。中身を理解するために、[MPU-6050のデータシート](https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf)や[レジスタマップ](https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Register-Map1.pdf)を見てみましょう。
+
+- **I2Cアドレス**: データシートのセクション9.2を見ると、AD0ピンがLOWならアドレスは`0x68`、HIGHなら`0x69`だと書かれています。私達のモジュールはAD0がGNDに接続されているので`0x68`です。
+- **WHO_AM_I レジスタ**: レジスタマップの最後(p.45)にある`WHO_AM_I`レジスタ(アドレス`0x75`)は、デバイスIDを返す特別なレジスタです。この値を読むと、MPU-6050の場合は`0x68`が返ってきます。`mpu.begin()`の中でライブラリは、このレジスタを読んでI2C通信が正しくできているかを確認しています。
+
+</details>
+
+<h2 id="_5">センサーフュージョン：ライブラリが裏側でやっていること</h2>
+<p>加速度センサーとジャイロセンサー、それぞれ単体では正確な傾斜角度を継続して知ることはできません。</p>
+<ul>
+<li><strong>加速度センサー</strong>: 静止しているとき、重力加速度を検出することで傾きが計算できます。しかし、少しでも動き（並進加速度）が加わると、重力との区別がつかなくなり、ノイズだらけになります。</li>
+<li><strong>ジャイロセンサー</strong>: 角速度（1秒間に何度回転したか）を積分することで、角度の変化を知ることができます。しかし、わずかな誤差が時間と共に蓄積していき、だんだん角度がズレていく（<strong>ドリフト</strong>）という宿命的な欠点があります。</li>
+</ul>
+<p><code>MPU6050_tockn</code>ライブラリは、この2つのセンサーの長所を組み合わせる<strong>センサーフュージョン</strong>（具体的には<strong>相補フィルター</strong>に近い処理）を内部で行っています。
+- <code>mpu6050.calcGyroOffsets(true)</code>: 起動時にジャイロの静止状態の誤差（オフセット）を測定し、ドリフトを軽減します。
+- <code>mpu6050.update()</code>: 加速度センサーとジャイロセンサーの両方の値を読み取り、それらを統合して、より正確で安定した傾斜角度を計算します。</p>
+<p>私たちは<code>update()</code>を呼び出すだけで、この複雑な計算の恩恵を受けることができます。</p>
+<details>
+<summary><b>究極の道：</b>DMP (Digital Motion Processor)</summary>
+実はMPU-6050の内部には、**DMP**という専用のプロセッサが内蔵されています。これを使うと、センサー側で自動的にセンサーフュージョン（しかも高度なカルマンフィルター）の計算を行い、マイコンは完成品の角度データ（**クォータニオン**という形式）を受け取るだけで済みます。マイコンの計算負荷を大幅に下げられるため、非常に強力な機能です。`MPU6050_tockn`ライブラリはDMPを直接サポートしていませんが、他のライブラリ（例えば `jrowberg/i2cdevlib`）を使えば利用可能です。
+</details>
+<p>}</p>
+<p>void loop() {
+    byte error, address;
+    int nDevices;
+    Serial.println("Scanning...");
+    nDevices = 0;
+    for(address = 1; address &lt; 127; address++ ) {
+        Wire.beginTransmission(address);
+        error = Wire.endTransmission();
+        if (error == 0) {
+            Serial.print("I2C device found at address 0x");
+            if (address&lt;16) {
+                Serial.print("0");
+            }
+            Serial.println(address, HEX);
+            nDevices++;
+        }
+        else if (error==4) {
+            Serial.print("Unknown error at address 0x");
+            if (address&lt;16) {
+                Serial.print("0");
+            }
+            Serial.println(address, HEX);
+        }
+    }
+    if (nDevices == 0) {
+        Serial.println("No I2C devices found\n");
+    }
+    else {
+        Serial.println("done\n");
+    }
+    delay(5000);
+}</p>
+<pre><code>このコードを実行すると、`0x01`から`0x7F`までの全てのアドレスに応答があるかを確認し、見つかったデバイスのアドレスをシリアルモニタに表示します。
+- **`I2C device found at address 0x68`** と表示されれば、配線は正しく、センサーも生きています。ライブラリ側の問題の可能性があります。
+- **`No I2C devices found`** と表示されたら、配線を徹底的に見直しましょう。それでもダメなら、センサーの故障を疑います。
+
+&lt;details&gt;
+&lt;summary&gt;&lt;b&gt;横道：&lt;/b&gt;データシートを読んでみよう&lt;/summary&gt;
+ライブラリは便利ですが、ブラックボックスです。中身を理解するために、[MPU-6050のデータシート](https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Datasheet1.pdf)や[レジスタマップ](https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Register-Map1.pdf)を見てみましょう。
+
+- **I2Cアドレス**: データシートのセクション9.2を見ると、AD0ピンがLOWならアドレスは`0x68`、HIGHなら`0x69`だと書かれています。私達のモジュールはAD0がGNDに接続されているので`0x68`です。
+- **WHO_AM_I レジスタ**: レジスタマップの最後(p.45)にある`WHO_AM_I`レジスタ(アドレス`0x75`)は、デバイスIDを返す特別なレジスタです。この値を読むと、MPU-6050の場合は`0x68`が返ってきます。`mpu.begin()`の中でライブラリは、このレジスタを読んでI2C通信が正しくできているかを確認しています。
+
+&lt;/details&gt;
+
+## センサーフュージョン入門：加速度とジャイロから角度を求める
+
+加速度センサーとジャイロセンサー、それぞれ単体では正確な傾斜角度を継続して知ることはできません。
+
+-   **加速度センサー**: 静止しているとき、重力加速度を検出することで傾きが計算できます。しかし、少しでも動き（並進加速度）が加わると、重力との区別がつかなくなり、ノイズだらけになります。
+-   **ジャイロセンサー**: 角速度（1秒間に何度回転したか）を積分することで、角度の変化を知ることができます。しかし、わずかな誤差が時間と共に蓄積していき、だんだん角度がズレていく（**ドリフト**）という宿命的な欠点があります。
+
+そこで、**短期的には正確なジャイロ**を使い、**長期的には（平均すれば）正確な加速度センサー**でそのズレを補正し続ける、というアイデアが生まれます。これを**センサーフュージョン**と呼び、その最もシンプルな実装が**相補フィルター(Complementary Filter)**です。
+
+I2Cスキャナで無事`0x68`が見つかったら、元のサンプルコードに戻し、今度は相補フィルターを実装してみましょう。
+
+```diff
+--- a/src/mpu6050/main.ino
++++ b/src/mpu6050/main.ino
+@@ -6,6 +6,11 @@
+
+ Adafruit_MPU6050 mpu;
+
++float angle = 0.0;
++float accel_angle = 0.0;
++float gyro_rate = 0.0;
++unsigned long last_time;
++
+ void setup(void) {
+     Serial.begin(115200);
+     if (!mpu.begin()) {
+@@ -13,20 +18,25 @@
+         while (1) { delay(10); }
+     }
+     Serial.println(&quot;MPU6050 Found!&quot;);
++    last_time = micros();
+ }
+
+ void loop() {
+     sensors_event_t a, g, temp;
+     mpu.getEvent(&amp;a, &amp;g, &amp;temp);
+
+-    Serial.print(&quot;Accel X: &quot;); Serial.print(a.acceleration.x);
+-    Serial.print(&quot; Y: &quot;); Serial.print(a.acceleration.y);
+-    Serial.print(&quot; Z: &quot;); Serial.println(a.acceleration.z);
++
++    // 加速度から角度を計算 (atan2を使用)
++    accel_angle = atan2(a.acceleration.y, a.acceleration.z) * 180 / PI;
++    
++    // ジャイロの角速度
++    gyro_rate = g.gyro.x;
++
++    // 経過時間を計算
++    unsigned long current_time = micros();
++    float dt = (current_time - last_time) / 1000000.0;
++    last_time = current_time;
++
++    // 相補フィルター
++    angle = 0.98 * (angle + gyro_rate * dt) + 0.02 * accel_angle;
++
++    Serial.println(angle);
++    delay(10);
+ }
+</code></pre>
+<p>元のサンプルコードから、加速度とジャイロの値を個別に表示する部分を削除し、相補フィルターの計算を追加しました。<code>atan2</code>関数を使って加速度ベクトルから角度を計算し、ジャイロの角速度を時間で積分したものと組み合わせることで、より安定した角度データが得られます。シリアルプロッタで値を見ると、センサーを傾けたときにスムーズな角度変化が観測できるはずです。</p>
+<details>
+<summary><b>究極の道：</b>DMP (Digital Motion Processor)</summary>
+実はMPU-6050の内部には、**DMP**という専用のプロセッサが内蔵されています。これを使うと、センサー側で自動的にセンサーフュージョン（しかも高度なカルマンフィルター）の計算を行い、マイコンは完成品の角度データ（**クォータニオン**という形式）を受け取るだけで済みます。マイコンの計算負荷を大幅に下げられるため、非常に強力な機能です。Adafruitのライブラリでは直接サポートされていませんが、他のライブラリ（例えば `jrowberg/i2cdevlib`）を使えば利用可能です。
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../sg90/" class="md-footer__link md-footer__link--prev" aria-label="Previous: サーボモーター(SG90)">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                サーボモーター(SG90)
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../variable_resistor/" class="md-footer__link md-footer__link--next" aria-label="Next: 可変抵抗器">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                可変抵抗器
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.footer"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
