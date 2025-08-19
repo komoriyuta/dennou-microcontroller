@@ -9,7 +9,7 @@ nav:
     - '概要': 'chapter3/index.md'
     - 'サーボモーター(SG90)': 'chapter3/sg90.md'
     - '6軸センサー(MPU-6050)': 'chapter3/mpu6050.md'
-    - 'フォトリフレクタ(LBR-127HLD)': 'chapter3/lbr127hld.md'
+    - '可変抵抗器': 'chapter3/variable_resistor.md'
   - '応用的な作例の制作': 'chapter4.md'
 theme:
   name: material

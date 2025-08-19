@@ -81,7 +81,7 @@ LEDは、一定の電圧（順方向電圧, V<sub>F</sub>）を超えると急�
 （ここに回路図を挿入）
 
 ```cpp
-#define LED_PIN 13 // LEDを接続するピン番号を13と定義
+#define LED_PIN 15 // LEDを接続するピン番号を13と定義
 
 void setup() {
     // LED_PINを出力モードに設定
@@ -109,7 +109,7 @@ LEDを点滅させるだけなら問題ありませんが、例えば「LEDを�
 現在の時刻と、最後に処理を行った時刻を比較することで、「一定時間経過したかどうか」をCPUを停止させることなく判断できます。
 
 ```cpp
-#define LED_PIN 13
+#define LED_PIN 15
 const long interval = 1000;       // 点滅間隔
 unsigned long previousMillis = 0; // 最後にLEDの状態を変更した時刻
 int ledState = LOW;               // LEDの現在の状態

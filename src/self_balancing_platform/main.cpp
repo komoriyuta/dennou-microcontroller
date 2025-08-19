@@ -2,20 +2,20 @@
 #include <Wire.h>
 #include <MPU6050_tockn.h>
 #include <Servo.h>
+#define SERVO_PIN 20
 
 MPU6050 mpu6050(Wire);
 Servo myservo;
 
 // 調整用パラメータ
 const float gain = 1.5; // Pゲイン（反応の強さ）。この値を調整する。
-const int servoPin = 15;
 
 void setup() {
   Serial.begin(115200);
   Wire.begin();
   mpu6050.begin();
   mpu6050.calcGyroOffsets(true);
-  myservo.attach(servoPin);
+  myservo.attach(SERVO_PIN);
 }
 
 void loop() {

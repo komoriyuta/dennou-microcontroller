@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#define SENSOR_PIN 26 // フォトリフレクタのOUTを接続するピン (ADC2)
+#define SENSOR_PIN 26 // 可変抵抗器の出力を接続するピン (ADC0)
 
 void setup() {
     Serial.begin(115200); // シリアル通信の開始
